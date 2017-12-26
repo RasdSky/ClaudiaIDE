@@ -47,35 +47,20 @@ namespace ClaudiaIDE
             for (int i = 0; i < frames; i++)
             {
                 gif.SelectActiveFrame(dim, i);
+                Image im = ((Image)gif.Clone());
+                BitmapImage bmImg = new BitmapImage();
 
-                BitmapSource bitmapSou = null;
-                var bitmap = new BitmapImage();
-                var fileInfo = new FileInfo(path);
-                if (fileInfo.Exists)
+                using (MemoryStream memStream2 = new MemoryStream())
                 {
-                    bitmap.BeginInit();
-                    bitmap.CacheOption = BitmapCacheOption.OnLoad;
-                    bitmap.CreateOptions = BitmapCreateOptions.None;
-                    bitmap.UriSource = new Uri(path, UriKind.RelativeOrAbsolute);
-                    bitmap.EndInit();
-                    bitmap.Freeze();
-                    if (_setting.ImageStretch == ImageStretch.None)
-                    {
-                        bitmap = Utils.EnsureMaxWidthHeight(bitmap, _setting.MaxWidth, _setting.MaxHeight);
-                        if (bitmap.Width != bitmap.PixelWidth || bitmap.Height != bitmap.PixelHeight)
-                        {
-                            bitmapSou = Utils.ConvertToDpi96(bitmap);
-                        }
-                    }
+                    im.Save(memStream2, ImageFormat.Png);
+
+                    bmImg.BeginInit();
+                    bmImg.CacheOption = BitmapCacheOption.OnLoad;
+                    bmImg.UriSource = null;
+                    bmImg.StreamSource = memStream2;
+                    bmImg.EndInit();
                 }
-                if (bitmapSou != null)
-                {
-                    imgs.Add(bitmapSou);
-                }
-                else
-                {
-                    imgs.Add(bitmap);
-                }
+                imgs.Add(bmImg);
             }
             return new BitmapImageEnumerator(imgs);
         }
@@ -91,10 +76,13 @@ namespace ClaudiaIDE
             {
                 _timer.Change(Timeout.Infinite, Timeout.Infinite);
             }
-            else
+            else if (_setting.ImageBackgroundType == ImageBackgroundType.GIF)
             {
-                _bitmapImages = GetImagesFromGif();
-                ChangeImage(null);
+                if (_bitmapImages == null)
+                {
+                    _bitmapImages = GetImagesFromGif();
+                    ChangeImage(null);
+                }
                 _timer.Change(0, (int)_setting.UpdateImageInterval.TotalMilliseconds);
             }
         }

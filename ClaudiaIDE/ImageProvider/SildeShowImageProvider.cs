@@ -73,12 +73,16 @@ namespace ClaudiaIDE
             {
                 _timer.Change(Timeout.Infinite, Timeout.Infinite);
             }
-            else
+            else if(_setting.ImageBackgroundType == ImageBackgroundType.Slideshow)
             {
                 _imageFiles = GetImagesFromDirectory();
                 _imageFilesPath = _imageFiles.GetEnumerator();
                 ChangeImage(null);
                 _timer.Change(0, (int)_setting.UpdateImageInterval.TotalMilliseconds);
+            }
+            else
+            {
+                //GIF
             }
         }
 

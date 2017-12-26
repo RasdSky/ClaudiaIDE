@@ -155,6 +155,7 @@ namespace ClaudiaIDE.Options
             {
                 if (str == "Single") return ImageBackgroundType.Single;
                 else if (str == "Slideshow") return ImageBackgroundType.Slideshow;
+                else if (str == "Gif") return ImageBackgroundType.GIF;
                 else return ImageBackgroundType.Single;
             }
 
@@ -173,6 +174,10 @@ namespace ClaudiaIDE.Options
                 else if ((int)value == 1)
                 {
                     result = "Slideshow";
+                }
+                else if ((int)value == 2)
+                {
+                    result = "Gif";
                 }
 
                 if (result != null) return result;
