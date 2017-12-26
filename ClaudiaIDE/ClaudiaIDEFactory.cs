@@ -51,7 +51,8 @@ namespace ClaudiaIDE
                     ProvidersHolder.Initialize(settings, new List<IImageProvider>
                     {
                         new SildeShowImageProvider(settings),
-                        new SingleImageProvider(settings)
+                        new SingleImageProvider(settings),
+                        new GifProvider(settings)
                     });
                 }
                 ImageProviders = ProvidersHolder.Instance.Providers;

@@ -202,6 +202,7 @@
     <Compile Include="Helpers\ImageSourceAnimator.cs" />
     <Compile Include="Helpers\Utils.cs" />
     <Compile Include="IImageProvider.cs" />
+    <Compile Include="ImageProvider\GifProvider.cs" />
     <Compile Include="ImageProvider\SildeShowImageProvider.cs" />
     <Compile Include="ImageProvider\SingleImageProvider.cs" />
     <Compile Include="Localized\LocalManager.cs" />

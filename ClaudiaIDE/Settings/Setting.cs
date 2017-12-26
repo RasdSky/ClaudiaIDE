@@ -183,7 +183,8 @@ namespace ClaudiaIDE.Settings
     public enum ImageBackgroundType
     {
         Single = 0,
-        Slideshow = 1
+        Slideshow = 1,
+        GIF = 2
     }
 
     [CLSCompliant(false), ComVisible(true)]

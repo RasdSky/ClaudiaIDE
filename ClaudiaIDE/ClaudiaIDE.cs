@@ -38,12 +38,12 @@ namespace ClaudiaIDE
         public ClaudiaIDE(IWpfTextView view, List<IImageProvider> imageProvider)
 		{
 		    try
-		    {
+            {
                 RenderOptions.SetBitmapScalingMode(_editorCanvas, BitmapScalingMode.Fant);
 
                 _dispacher = Dispatcher.CurrentDispatcher;
                 _imageProviders = imageProvider;
-                _imageProvider = imageProvider.FirstOrDefault(x=>x.ProviderType == _setting.ImageBackgroundType);
+                _imageProvider = imageProvider.FirstOrDefault(x => x.ProviderType == _setting.ImageBackgroundType);
 
                 if (_imageProvider == null)
                 {
@@ -52,12 +52,13 @@ namespace ClaudiaIDE
                 _view = view;
                 _themeViewBackground = _view.Background;
                 _adornmentLayer = view.GetAdornmentLayer("ClaudiaIDE");
-                _view.LayoutChanged += (s,e) => {
+                _view.LayoutChanged += (s, e) =>
+                {
                     RepositionImage();
                     _isMainWindow = IsRootWindow();
                     SetCanvasBackground(_setting.ExpandToIDE);
                 };
-                _view.Closed += (s,e) =>
+                _view.Closed += (s, e) =>
                 {
                     _imageProviders.ForEach(x => x.NewImageAvaliable -= InvokeChangeImage);
                     if (_setting != null)
@@ -72,7 +73,7 @@ namespace ClaudiaIDE
                 };
                 _setting.OnChanged.AddEventHandler(ReloadSettings);
 
-                _imageProviders.ForEach(x => x.NewImageAvaliable += InvokeChangeImage);
+                _imageProviders.ForEach(x => x.NewImageAvaliable += GetInvokeChangeImage());
 
                 ChangeImage();
                 RefreshAdornment();
@@ -81,6 +82,11 @@ namespace ClaudiaIDE
 			{
 			}
 		}
+
+        private EventHandler GetInvokeChangeImage()
+        {
+            return InvokeChangeImage;
+        }
 
         private void InvokeChangeImage(object sender, System.EventArgs e)
         {
